@@ -14,3 +14,17 @@ export interface CarResponseDto {
     rating: number;
     isAvailable: boolean;
 }
+export interface ReviewDto {
+    userName: string;
+    rating: number;
+    comment: string;
+    createdAt: string;
+}
+
+export interface CarDetailDto extends CarResponseDto {
+    description: string;
+    numberOfSeats: number;
+    engineVolume: number;
+    address: string;
+    reviews: ReviewDto[];
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import type{ CarResponseDto } from '../../model/types';
+import { useNavigate } from 'react-router-dom';
 
 interface CarCardProps {
     car: CarResponseDto;
@@ -11,7 +12,9 @@ const transmissionLabels: Record<string, string> = {
     Manual: 'Механіка',
 };
 
-export const CarCard: React.FC<CarCardProps> = ({ car, onRent }) => {
+export const CarCard: React.FC<CarCardProps> = ({ car }) => {
+  const navigate = useNavigate();
+  
     return (
         <div className="bg-white border border-warm-border rounded-lg overflow-hidden hover:border-warm-muted transition-colors">
             
@@ -46,11 +49,11 @@ export const CarCard: React.FC<CarCardProps> = ({ car, onRent }) => {
                     </div>
 
                     <button
-                        onClick={() => onRent && onRent(car.id)}
+                        onClick={() => navigate(`/cars/${car.id}`)}
                         disabled={!car.isAvailable}
                         className="bg-brand-light text-brand-primary text-xs font-medium px-3 py-2 rounded-md hover:bg-brand-primary hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                        {car.isAvailable ? 'Орендувати' : 'Недоступно'}
+                        {car.isAvailable ? 'Детальніше' : 'Недоступно'}
                     </button>
                 </div>
             </div>

@@ -5,13 +5,29 @@ import { CatalogWidget } from '@/widgets/CatalogWidget';
 import { TrustBar } from '@/widgets/TrustBar';
 
 export const HomePage = () => {
-  
+    
+    const [filters, setFilters] = useState<{ city?: string; startDate?: string; endDate?: string; class?: string }>({});
+    
+    
     const [activeCategory, setActiveCategory] = useState<string>('all');
 
     
     const handleSearch = (params: SearchParams) => {
-        console.log('Шукаємо авто за параметрами:', params);
-        // Пізніше ми підключимо сюди реальний запит до API з цими даними
+        setFilters(prev => ({
+            ...prev,
+            city: params.city || undefined,
+            startDate: params.dateFrom || undefined,
+            endDate: params.dateTo || undefined
+        }));
+    };
+
+    
+    const handleCategoryChange = (category: string) => {
+        setActiveCategory(category);
+        setFilters(prev => ({
+            ...prev,
+            class: category === 'all' ? undefined : category 
+        }));
     };
 
     return (
@@ -42,14 +58,14 @@ export const HomePage = () => {
                     <SearchBar onSearch={handleSearch} />
                 </div>
 
-                {/* Фільтри по класах */}
-                <CategoryFilter activeCategory={activeCategory} onChange={setActiveCategory} />
+                {/* Фільтри по класах (передаємо нашу нову функцію) */}
+                <CategoryFilter activeCategory={activeCategory} onChange={handleCategoryChange} />
             </section>
 
           
             <section className="max-w-6xl mx-auto px-6 pb-16">
-               
-                <CatalogWidget category={activeCategory} />
+                {/* 5. ПЕРЕДАЄМО ОБ'ЄКТ ФІЛЬТРІВ У ВІДЖЕТ */}
+                <CatalogWidget filters={filters} />
             </section>
 
             {/* Trust bar (Панель переваг) */}
