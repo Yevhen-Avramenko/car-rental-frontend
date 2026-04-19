@@ -10,6 +10,11 @@ import { CarDetailPage } from '@/pages/CarDetailPage';
 import { BookingPage } from '@/pages/BookingPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { AboutPage } from '@/pages/AboutPage';
+import { AdminRoute } from '@/shared/ui/AdminRoute';
+import { AdminRentalsPage } from '@/pages/AdminRentalsPage';
+import { AdminCarsPage } from '@/pages/AdminCarsPage';
+import { PaymentSuccessPage } from '@/pages/PaymentSuccessPage';
+import { PaymentCancelPage }  from '@/pages/PaymentCancelPage';
 
 function App() {
   return (
@@ -35,6 +40,14 @@ function App() {
               />
               <Route path="/cars/:id" element={<CarDetailPage />} />
               <Route path="/booking/:carId" element={<BookingPage />} />
+              <Route path="/admin/rentals" element={
+                  <AdminRoute><AdminRentalsPage /></AdminRoute>
+               } />
+              <Route path="/admin/cars" element={
+                  <AdminRoute><AdminCarsPage /></AdminRoute>
+               } />
+               <Route path="/payment/success" element={<PaymentSuccessPage />} />
+               <Route path="/payment/cancel"  element={<PaymentCancelPage />} /> 
             </Routes>
           </main>
         </BrowserRouter>

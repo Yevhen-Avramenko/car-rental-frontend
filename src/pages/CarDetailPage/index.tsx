@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getCarById } from '@/entities/car/api/carService';
 import { type CarDetailDto } from '@/entities/car/model/types';
 import { Button } from '@/shared/ui/Button';
+import { LocationMap } from '@/shared/ui/LocationMap';
+import { ImageGallery } from '@/shared/ui/ImageGallery';
 
 export const CarDetailPage = () => {
     const { id } = useParams<{ id: string }>(); // Дістаємо ID з URL
@@ -38,12 +40,11 @@ export const CarDetailPage = () => {
             </button>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                {/* Ліва колонка: Фото */}
-                <div className="bg-brand-light rounded-2xl overflow-hidden border border-warm-border h-64 md:h-96 relative">
-                    <img
-                        src={car.imageUrl || 'https://via.placeholder.com/600x400?text=No+Image'}
+                {/* Ліва колонка: Галерея */}
+               <div>
+                    <ImageGallery
+                        images={car.images ?? [car.imageUrl].filter(Boolean)}
                         alt={`${car.make} ${car.model}`}
-                        className="w-full h-full object-cover"
                     />
                 </div>
 
@@ -80,7 +81,15 @@ export const CarDetailPage = () => {
                     </Button>
                 </div>
             </div>
-
+            {car.address && car.address !== 'Unknown' && (
+                <div className="mt-8">
+                    <h2 className="text-lg font-medium text-warm-ink mb-1">
+                        Місце отримання авто
+                    </h2>
+                    <p className="text-sm text-warm-muted mb-3">{car.address}</p>
+                    <LocationMap address={car.address} />
+                </div>
+            )}
             {/* Секція відгуків */}
             <div className="mt-16">
                 <h2 className="text-2xl font-medium text-warm-ink mb-6">Відгуки клієнтів</h2>

@@ -23,7 +23,7 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
                 <img
                     src={car.imageUrl || 'https://via.placeholder.com/300x200?text=No+Image'}
                     alt={`${car.make} ${car.model}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                 />
                 {/* Бейдж класу */}
                 <span className="absolute top-3 left-3 bg-warm-ink text-warm-cream text-xs px-3 py-1 rounded-full font-medium">

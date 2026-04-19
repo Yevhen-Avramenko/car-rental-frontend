@@ -7,13 +7,13 @@ export const api: AxiosInstance = axios.create({
     }
 });
 
-// Інтерцептор ЗАПИТІВ (Request Interceptor)
+
 api.interceptors.request.use(
     (config) => {
-        // Завжди беремо свіжий токен з localStorage
+       
         const token = localStorage.getItem('token');
         if (token && config.headers) {
-            // Додаємо його до заголовка Authorization
+            
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
@@ -23,19 +23,26 @@ api.interceptors.request.use(
     }
 );
 
-// Інтерцептор ВІДПОВІДЕЙ (Response Interceptor)
+
 api.interceptors.response.use(
     (response) => {
-        return response; // Якщо все добре, просто повертаємо дані
+        return response; 
     },
     (error) => {
-        // Якщо бекенд відповів 401 Unauthorized (токен прострочений або невірний)
+        
+        if (axios.isAxiosError(error) && error.response?.status === 429) {
+            // Показуємо глобальне повідомлення замість краша
+            console.warn('Rate limit exceeded');
+            return Promise.reject(
+                new Error('Забагато запитів. Зачекайте хвилину та спробуйте знову.')
+            );
+        }
         if (error.response && error.response.status === 401) {
             console.warn('Токен недійсний. Виконуємо вихід...');
-            localStorage.removeItem('token'); // Видаляємо токен
+            localStorage.removeItem('token'); 
             
-            // Замість React Router тут використовуємо window.location для жорсткого редіректу, 
-            // оскільки axios знаходиться поза контекстом роутера
+             
+            
             if (window.location.pathname !== '/login') {
                 window.location.href = '/login'; 
             }

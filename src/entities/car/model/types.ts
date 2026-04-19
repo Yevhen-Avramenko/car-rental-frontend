@@ -27,4 +27,5 @@ export interface CarDetailDto extends CarResponseDto {
     engineVolume: number;
     address: string;
     reviews: ReviewDto[];
+    images: string[];  
 }

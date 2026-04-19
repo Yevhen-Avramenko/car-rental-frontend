@@ -3,14 +3,15 @@ import { SearchBar, type SearchParams } from '@/features/car-catalog/ui/SearchBa
 import { CategoryFilter } from '@/features/car-catalog/ui/CategoryFilter';
 import { CatalogWidget } from '@/widgets/CatalogWidget';
 import { TrustBar } from '@/widgets/TrustBar';
-
+import { AIRecommendations } from '@/features/recommendations/ui/AIRecommendations';
+import { useAuth } from '@/features/auth/model/useAuth';
 export const HomePage = () => {
     
     const [filters, setFilters] = useState<{ city?: string; startDate?: string; endDate?: string; class?: string }>({});
     
     
     const [activeCategory, setActiveCategory] = useState<string>('all');
-
+    const { isAuth } = useAuth();
     
     const handleSearch = (params: SearchParams) => {
         setFilters(prev => ({
@@ -70,6 +71,7 @@ export const HomePage = () => {
 
             {/* Trust bar (Панель переваг) */}
             <TrustBar />
+            {isAuth && <AIRecommendations />}
         </div>
     );
 };

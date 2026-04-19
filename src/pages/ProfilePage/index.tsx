@@ -4,6 +4,7 @@ import { getMyRentals, cancelRental, addReview } from '@/features/profile/api/pr
 import { type RentalResponseDto } from '@/entities/rental/model/types';
 import { Button } from '@/shared/ui/Button';
 import axios from 'axios';
+import { AIRecommendations } from '@/features/recommendations/ui/AIRecommendations';
 
 
 // Допоміжна функція для кольорів статусів
@@ -148,6 +149,7 @@ export const ProfilePage = () => {
                                     </div>
                                 )}
                             </div>
+                            <AIRecommendations compact />
                         </div>
                     ))
                 )}
