@@ -5,11 +5,12 @@ import { type CarDetailDto } from '@/entities/car/model/types';
 import { Button } from '@/shared/ui/Button';
 import { LocationMap } from '@/shared/ui/LocationMap';
 import { ImageGallery } from '@/shared/ui/ImageGallery';
+import { useAuth } from '@/features/auth/model/useAuth';
 
 export const CarDetailPage = () => {
     const { id } = useParams<{ id: string }>(); // Дістаємо ID з URL
     const navigate = useNavigate();
-    
+    const { isAuth } = useAuth();
     const [car, setCar] = useState<CarDetailDto | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -76,9 +77,35 @@ export const CarDetailPage = () => {
                         </div>
                     </div>
 
-                    <Button className="w-full py-4 text-lg" onClick={() => navigate(`/booking/${car.id}`)}>
-                        Орендувати зараз
-                    </Button>
+                    {car.ownerRole === 'Client' ? (
+                        <div className="bg-warm-cream border border-warm-border rounded-xl p-5 mt-6">
+                            <p className="text-xs text-warm-muted uppercase tracking-wide mb-3 font-medium">
+                                Власник авто
+                            </p>
+                            <p className="font-medium text-warm-ink mb-4">{car.ownerName}</p>
+                            <div className="space-y-2">
+                                {car.ownerPhone && (
+                                    <a href={`tel:${car.ownerPhone}`}
+                                    className="flex items-center gap-3 bg-white border border-warm-border rounded-lg px-4 py-3 hover:bg-brand-light/20 transition text-sm text-warm-ink">
+                                        📞 {car.ownerPhone}
+                                    </a>
+                                )}
+                                {car.ownerEmail && (
+                                    <a href={`mailto:${car.ownerEmail}`}
+                                    className="flex items-center gap-3 bg-white border border-warm-border rounded-lg px-4 py-3 hover:bg-brand-light/20 transition text-sm text-warm-ink">
+                                        ✉️ {car.ownerEmail}
+                                    </a>
+                                )}
+                            </div>
+                            <p className="text-xs text-warm-muted mt-4 text-center">
+                                Оплата та умови — напряму з власником
+                            </p>
+                        </div>
+                    ) : (
+                        <Button onClick={() => navigate(`/booking/${car.id}`)}>
+                            Забронювати
+                        </Button>
+                    )}
                 </div>
             </div>
             {car.address && car.address !== 'Unknown' && (

@@ -28,4 +28,8 @@ export interface CarDetailDto extends CarResponseDto {
     address: string;
     reviews: ReviewDto[];
     images: string[];  
+    ownerRole:  string;       
+    ownerName:  string | null;
+    ownerPhone: string | null;
+    ownerEmail: string | null;
 }

@@ -15,6 +15,8 @@ import { AdminRentalsPage } from '@/pages/AdminRentalsPage';
 import { AdminCarsPage } from '@/pages/AdminCarsPage';
 import { PaymentSuccessPage } from '@/pages/PaymentSuccessPage';
 import { PaymentCancelPage }  from '@/pages/PaymentCancelPage';
+import { P2pCatalogPage } from '@/pages/P2pCatalogPage';
+import { MyListingsPage }  from '@/pages/MyListingsPage';
 
 function App() {
   return (
@@ -48,6 +50,10 @@ function App() {
                } />
                <Route path="/payment/success" element={<PaymentSuccessPage />} />
                <Route path="/payment/cancel"  element={<PaymentCancelPage />} /> 
+               <Route path="/p2p" element={<P2pCatalogPage />} />
+               <Route path="/p2p/my" element={
+                  <ProtectedRoute><MyListingsPage /></ProtectedRoute>
+               } />
             </Routes>
           </main>
         </BrowserRouter>

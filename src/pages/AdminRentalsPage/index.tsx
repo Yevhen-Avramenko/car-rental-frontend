@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllRentals, updateRentalStatus } from '@/features/admin/api/adminService';
 import type { RentalResponseDto } from '@/entities/rental/model/types';
 import axios from 'axios';
+import { downloadRentalContract } from '@/features/admin/api/adminService';
 
 const STATUS_OPTIONS = ['Confirmed', 'Active', 'Completed', 'Cancelled'];
 
@@ -136,6 +137,15 @@ export const AdminRentalsPage = () => {
                                                     </option>
                                                 ))}
                                             </select>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                                <button
+                                                    onClick={() => downloadRentalContract(r.id)} 
+                                                    className="text-xs border border-warm-border text-warm-ink px-3 py-1.5 rounded-lg hover:bg-warm-cream transition flex items-center gap-1.5"
+                                                    title="Завантажити договір"
+                                                >
+                                                    📄 Договір
+                                                </button>
                                         </td>
                                     </tr>
                                 );

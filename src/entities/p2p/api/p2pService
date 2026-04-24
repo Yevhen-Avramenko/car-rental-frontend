@@ -1,0 +1,84 @@
+import { api } from '@/shared/api/axiosConfig';
+import type { CarResponseDto } from '@/entities/car/model/types';
+
+export interface CreateP2pCarPayload {
+    vehicleModelId: number;
+    locationId:     number;
+    year:           number;
+    vin:            string;
+    licensePlate:   string;
+    pricePerDay:    number;
+    description:    string;
+}
+
+export interface UpdateP2pCarPayload {
+    pricePerDay?: number;
+    description?: string;
+    locationId?:  number;
+}
+
+export interface VehicleModelOption {
+    id:        number;
+    name:      string;
+    brandName: string;
+}
+
+export interface LocationOption {
+    id:      number;
+    city:    string;
+    address: string;
+}
+
+
+interface RawVehicleModel {
+    id:    number;
+    name:  string;
+    brand: { name: string } | null;
+}
+
+export const getP2pCars = async (): Promise<CarResponseDto[]> => {
+    const response = await api.get<CarResponseDto[]>('/p2p');
+    return response.data;
+};
+
+export const getMyListings = async (): Promise<CarResponseDto[]> => {
+    const response = await api.get<CarResponseDto[]>('/p2p/my');
+    return response.data;
+};
+
+export const createP2pCar = async (data: CreateP2pCarPayload): Promise<CarResponseDto> => {
+    const response = await api.post<CarResponseDto>('/p2p', data);
+    return response.data;
+};
+
+export const updateP2pCar = async (id: number, data: UpdateP2pCarPayload): Promise<CarResponseDto> => {
+    const response = await api.put<CarResponseDto>(`/p2p/${id}`, data);
+    return response.data;
+};
+
+export const deleteP2pCar = async (id: number): Promise<void> => {
+    await api.delete(`/p2p/${id}`);
+};
+
+export const uploadP2pCarImage = async (carId: number, file: File): Promise<string> => {
+    const form = new FormData();
+    form.append('file', file);
+    const response = await api.post<{ imageUrl: string }>(`/p2p/${carId}/image`, form, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data.imageUrl;
+};
+
+export const getVehicleModels = async (): Promise<VehicleModelOption[]> => {
+    const response = await api.get<RawVehicleModel[]>('/VehicleModels');
+    return response.data.map(m => ({
+        id:        m.id,
+        name:      m.name,
+        brandName: m.brand?.name ?? '',
+    }));
+};
+
+export const getLocations = async (): Promise<LocationOption[]> => {
+    const response = await api.get<LocationOption[]>('/Locations');
+    return response.data;
+};
