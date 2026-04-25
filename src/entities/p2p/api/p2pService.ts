@@ -1,6 +1,7 @@
 import { api } from '@/shared/api/axiosConfig';
 import type { CarResponseDto } from '@/entities/car/model/types';
 
+
 export interface CreateP2pCarPayload {
     vehicleModelId: number;
     locationId:     number;
